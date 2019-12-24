@@ -1,0 +1,81 @@
+@font-face
+{
+    font-family: Korinna-Bold;
+    src: url("../fonts/Korinna-Bold.otf") format("opentype");
+}
+
+@font-face
+{
+    font-family: Swiss-911;
+    src: url("../fonts/swiss-911.ttf");
+}
+
+body
+{
+    background-color: black;
+}
+
+a:not(.clue-word)
+{
+    font-size: 1.8em;
+    letter-spacing: .1em;
+    color: #FFCC00;
+    display: block;
+    text-decoration: none;
+}
+
+a.clue-word
+{
+    letter-spacing: .1em;
+    color: white;
+    display: block;
+    text-decoration: none;
+}
+
+a.clue-word:hover
+{
+    color: #FFCC00;
+}
+
+a:not(.disabled):not(.clue-word):hover
+{
+    color: white;
+}
+
+
+.gameboard
+{
+    table-layout:fixed;
+    font-family: "Swiss-911", serif;
+    text-align: center;
+    color: white;
+    background-color: blue;
+    text-shadow: .1em .1em .05em black;
+    font-size: 1.5em;
+    letter-spacing: .15em;
+    border-collapse: collapse;
+    border: .4em solid black;
+}
+
+.gameboard th
+{
+    border: .4em solid black;
+    font-size: 1em;
+    font-style: bold;
+}
+
+.gameboard td
+{
+    border: .2em solid black;
+}
+
+.gameboard .clue
+{
+    font-family: "Korinna-Bold", serif;
+    font-size: 2em;
+}
+
+a.disabled {
+    color: gray;
+    text-decoration: line-through;
+}
