@@ -3,6 +3,8 @@ from Category import Category
 import requests
 from random import randint
 
+
+
 URL = "http://jservice.io/api/"
 
 MAX_CATEGORIES = 10000
@@ -75,7 +77,7 @@ class Game:
                     if str(data) != "[]":
                         total_clues = (data[0]['clues_count'])
                         id = (data[0]['id'])
-                        title = data[0]['title']
+                        title = title_cleaner(str(data[0]['title']))
                         clues_count = data[0]['clues_count']
                         if clues_count >= self.amt_of_clues:
                             total_clues = self.get_clues(id, round_counter)
@@ -98,6 +100,7 @@ class Game:
                 value = (total_clues + 1) * (round_counter + 1) * 100
                 if question != '' and answer != '':
                     answer, question = cleaner(answer, question)
+                    print(question)
                     clue = Clue(clue_id, answer, question, value, category_id)
                     CLUES.append(clue)
                     total_clues += 1
@@ -105,25 +108,46 @@ class Game:
             self.Clues[round_counter].append(CLUES)
         return total_clues
 
+
 def checkKey(dict, key):
     if key in dict.keys():
         return True
     return False
 
+
+def title_cleaner(title):
+    if title.find('\\x92') != -1:
+        title.replace('\\x92', "'")
+    return title
+
+
 def cleaner(answer, question):
-    if answer.find('<i>') != -1:
-        answer = answer.split('>')[1]
-        answer = answer.split('<')[0]
-    if answer.find('\\x93') != -1:
-        print("Found \\x93")
-        answer.replace('\\x93', '"')
-    if question.find('\\x93') != -1:
-        print("Found \\x93")
-        answer.replace('\\x93', '"')
-    if question.find('\\') != -1:
-        questions = question.split('\\')
-        question = questions[0] + questions[1]
-    if answer.find('\\') != -1:
-        answers = answer.split('\\')
-        answer = answer[0] + answer[1]
+    # Searches for <i> and </i> tags
+    if answer.find("<i>") != -1:
+        answer = answer.replace("<i>","")
+        answer = answer.replace("</i>","")
+        answer, question = cleaner(answer, question)
+
+    if question.find("<i>") != -1:
+        question = question.replace("<i>","")
+        question = question.replace("</i>","")
+        answer, question = cleaner(answer, question)
+
+    # Searches for custom character tags
+    if answer.find("") != -1:
+        answer = answer.replace("", "\\'")
+        answer, question = cleaner(answer, question)
+    if question.find("") != -1:
+        question = question.replace("", "\\'")
+        answer, question = cleaner(answer, question)
+
+    # Searches for \ tags
+    if answer.find("\\") != -1:
+        answer = answer.replace("\\","")
+        answer, question = cleaner(answer, question)
+    if question.find("\\") != -1:
+        question = question.replace("\\","")
+        answer, question = cleaner(answer, question)
+
     return answer, question
+
