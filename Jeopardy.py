@@ -100,7 +100,6 @@ class Game:
                 value = (total_clues + 1) * (round_counter + 1) * 100
                 if question != '' and answer != '':
                     answer, question = cleaner(answer, question)
-                    print(question)
                     clue = Clue(clue_id, answer, question, value, category_id)
                     CLUES.append(clue)
                     total_clues += 1
