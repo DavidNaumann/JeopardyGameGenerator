@@ -1,6 +1,5 @@
 from Jeopardy import Game
 from HTML_Creator import html_creator
-from string import Template
 
 def __main__():
     # Begins making game
